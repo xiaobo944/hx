@@ -16,7 +16,7 @@
 
  <section class="aui-flexView" style="height: auto;">
  <header class="header_title bg1">
-    <div class="aux_back"></div>
+    <div class="aux_back" @click="backClick()"></div>
     <h1 class="h1_title">{{title}}</h1>
 </header>
 
@@ -26,7 +26,7 @@
                         <li class="active">全国<span class="down-arrow"></span></li><li>种类<span class="down-arrow"></span></li><li>来源<span class="down-arrow"></span></li><li>排序<span class="down-arrow"></span></li>
                     </ul>
 
-                    <ul class="pinzhong_tool">
+                    <ul class="pinzhong_tool" v-show='urlParam!=null'>
                         <li v-for="(item,index) in cityArrlist">{{item.name}} <span v-if="index>0" class="cha"></span></li> 
                     </ul>
                     <!--显示点击的是哪一个字母-->
@@ -88,6 +88,7 @@ var app = new Vue({
   data: {
     title:'油脂油料',
     querySelect:null,
+    urlParam:null,
     cityArrlist:[],//查询条件
   },methods:{
     //获取地址栏参数//可以是中文参数
@@ -104,11 +105,17 @@ var app = new Vue({
     getInit(){
       //当前选择的
       var geturl_param = this.getUrlParam("pCity");
+      console.log(geturl_param)
+      this.urlParam = geturl_param;
       this.cityArrlist.push({"name":geturl_param})
 
     },
     selectCity(CityName){
       this.cityArrlist.push({"name":CityName})
+    },
+    backClick(){
+      var backUrl =  this.getUrlParam("url_addres");
+      window.location.href=backUrl; //根据url参数   设置点返回的跳转地址。
     }
   },mounted(){
     this.getInit()
