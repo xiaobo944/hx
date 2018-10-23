@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no, viewport-fit=cover"> 
+    <meta content="telephone=no" name="format-detection"/> <!--禁止拨号-->
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/basic.css">
+    <link rel="stylesheet" type="text/css" href="css/parts.css"> 
+</head>
+ 
+<body >  
+	 
+ <div id="app">
+
+ <section class="aui-flexView" style="height: auto;">
+ <header class="header_title bg1">
+    <div class="aux_back"></div>
+    <h1 class="h1_title">{{title}}</h1>
+</header>
+
+            <section class="aui-scrollView">  
+                <div class="aui-card-list">  
+                    <ul class="search_tool">
+                        <li class="active">全国<span class="down-arrow"></span></li><li>种类<span class="down-arrow"></span></li><li>来源<span class="down-arrow"></span></li><li>排序<span class="down-arrow"></span></li>
+                    </ul>
+
+                    <ul class="pinzhong_tool">
+                        <li v-for="(item,index) in cityArrlist">{{item.name}} <span v-if="index>0" class="cha"></span></li> 
+                    </ul>
+                    <!--显示点击的是哪一个字母-->
+                    <div id="showLetter" class="showLetter"><span>A</span></div>
+                    <!--城市索引查询-->
+                    <div class="letter">
+                        <ul>
+                          <li><a href="javascript:;">热门</a></li>
+                          <li><a href="javascript:;">历史</a></li>
+                          <li><a href="javascript:;">A</a></li>
+                          <li><a href="javascript:;">B</a></li>
+                          <li><a href="javascript:;">C</a></li>
+                          <li><a href="javascript:;">D</a></li>
+                          <li><a href="javascript:;">E</a></li>
+                          <li><a href="javascript:;">F</a></li>
+                          <li><a href="javascript:;">G</a></li>
+                          <li><a href="javascript:;">H</a></li>
+                          <li><a href="javascript:;">J</a></li>
+                          <li><a href="javascript:;">K</a></li>
+                          <li><a href="javascript:;">L</a></li>
+                          <li><a href="javascript:;">M</a></li>
+                          <li><a href="javascript:;">N</a></li>
+                          <li><a href="javascript:;">P</a></li>
+                          <li><a href="javascript:;">Q</a></li>
+                          <li><a href="javascript:;">R</a></li>
+                          <li><a href="javascript:;">S</a></li>
+                          <li><a href="javascript:;">T</a></li>
+                          <li><a href="javascript:;">W</a></li>
+                          <li><a href="javascript:;">X</a></li>
+                          <li><a href="javascript:;">Y</a></li>
+                          <li><a href="javascript:;">Z</a></li>
+                        </ul>
+                      </div>
+                    <!--城市列表-->
+                    <div class="container" id="cont">
+                      <div class="city">
+                        
+                      </div>
+                    </div>
+
+
+
+                </div> 
+            </section>
+             
+        </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/zepto.js"></script>
+<script type="text/javascript" src="js/city.js"></script>
+
+<script type="text/javascript">
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    title:'油脂油料',
+    querySelect:null,
+    cityArrlist:[],//查询条件
+  },methods:{
+    //获取地址栏参数//可以是中文参数
+    getUrlParam(key) {
+      // 获取参数
+        var url = window.location.search;
+        // 正则筛选地址栏
+        var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+        // 匹配目标参数
+        var result = url.substr(1).match(reg);
+        //返回参数值
+        return result ? decodeURIComponent(result[2]) : null;
+    },
+    getInit(){
+      //当前选择的
+      var geturl_param = this.getUrlParam("pCity");
+      this.cityArrlist.push({"name":geturl_param})
+
+    },
+    selectCity(CityName){
+      this.cityArrlist.push({"name":CityName})
+    }
+  },mounted(){
+    this.getInit()
+  }
+})
+
+   
+</script>
+</body>
+</html>

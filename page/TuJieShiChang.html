@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no, viewport-fit=cover"> 
+    <meta content="telephone=no" name="format-detection"/> <!--禁止拨号-->
+    <title>三大主粮</title>
+    <link rel="stylesheet" type="text/css" href="css/basic.css">
+    <link rel="stylesheet" type="text/css" href="css/parts.css"> 
+</head>
+ 
+<body>  
+	 
+ 
+
+ <section class="aui-flexView">
+ <header class="header_title bg1">
+    <div class="aux_back"></div>
+    <h1 class="h1_title">图解市场</h1>
+</header>
+
+            <section class="aui-scrollView">  
+                <div class="aui-card-list"> 
+                    <ul class="ctg-mod">
+                        <li class="main_cat active">分类<span class="down-arrow"></span></li>
+                        <li class="main_cat">图解分类<span class="down-arrow"></span></li>
+                    </ul>
+
+                    <div class="area-title"><h4>玉米市场价格日报</h4></div>
+                    <div id="chart" style="height: 200px;">
+                         图表
+                     </div>
+                     <div class="area-title"><h4>国内玉米市场价格日报</h4></div>
+                     <div id="chart2" style="height: 200px;">
+                         图表
+                     </div>
+
+
+
+
+
+                    
+                </div>
+                
+
+            </section>
+            <footer class="aui-footer">
+                <a href="javascript:;" class="aui-tabBar-item ">
+                    <span class="aui-tabBar-item-icon">
+                        <i class="icon icon-home"></i>
+                    </span>
+                    <span class="aui-tabBar-item-text">首页
+                    </span>
+                </a>
+                <a href="javascript:;" class="aui-tabBar-item ">
+                    <span class="aui-tabBar-item-icon">
+                        <i class="icon icon-news"></i>
+                    </span>
+                    <span class="aui-tabBar-item-text">头条
+                    </span>
+                </a>
+                <a href="javascript:;" class="aui-tabBar-item ">
+                    <span class="aui-tabBar-item-icon">
+                        <i class="icon icon-group"></i>
+                    </span>
+                    <span class="aui-tabBar-item-text">社群
+                    </span>
+                </a>
+                <a href="javascript:;" class="aui-tabBar-item ">
+                    <span class="aui-tabBar-item-icon">
+                        <i class="icon icon-comm"></i>
+                    </span>
+                    <span class="aui-tabBar-item-text">交流
+                    </span>
+                </a>
+                <a href="javascript:;" class="aui-tabBar-item aui-tabBar-item-active">
+                    <span class="aui-tabBar-item-icon">
+                        <i class="icon icon-me"></i>
+                    </span>
+                    <span class="aui-tabBar-item-text">我的
+                    </span>
+                </a>
+            </footer>
+        </section>
+
+<script type="text/javascript" src="js/echarts.min.js"></script>
+<script type="text/javascript" src="js/shine.js"></script>
+<script type="text/javascript">
+var option = {
+                grid: [
+                    {x: '50', y: '20'},
+                ],
+                xAxis: {
+                    type: 'category',
+                    data: ['09/20', '09/21', '09/22', '09/23', '09/24', '09/25', '09/26']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [820, 932, 901, 934, 1290, 1330, 1320],
+                    type: 'line',
+                    smooth: true
+                }]
+            };
+
+
+function BuildChart(domID,optionS){
+    // 第二个参数可以指定前面引入的主题
+    var chart = echarts.init(document.getElementById(domID), 'shine');
+        chart.setOption(optionS);    
+}
+
+BuildChart('chart',option);
+BuildChart('chart2',option)
+
+</script>
+</body>
+</html>
