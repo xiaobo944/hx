@@ -44,6 +44,10 @@ var cityList = [
           saveHistory(data);
 
           console.log(data)
+
+          window.location.href = '/JiShi/YouZhiYouLiao?isSearch=true&Cty='+data;
+          //isSearch = teue
+
       });
   
   })
