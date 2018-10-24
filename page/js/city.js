@@ -45,7 +45,8 @@ var cityList = [
 
           console.log(data)
           sessionStorage.selectCity=data;
-          window.location.href = '/JiShi/YouZhiYouLiao?isSearch=true&Cty='+data+'&ser_key='+data;
+          // window.location.href = '/JiShi/YouZhiYouLiao?isSearch=true&Cty='+data+'&ser_key='+data;
+          window.location.href = '/page/YouzhiYouLiaoZHonglei.html?ser_key='+data;
           //isSearch = teue
 
       });
