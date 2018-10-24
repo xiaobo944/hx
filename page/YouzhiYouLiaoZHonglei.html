@@ -220,7 +220,8 @@ var app = new Vue({
     },
     backClick(){
       var backUrl =  this.getUrlParam("url_addres");
-      window.location.href=backUrl; //根据url参数   设置点返回的跳转地址。
+      sessionStorage.bUrl = backUrl;
+      window.location.href=sessionStorage.bUrl; //根据url参数   设置点返回的跳转地址。
     },city_grep(inx){
       this.isA = inx; 
 
