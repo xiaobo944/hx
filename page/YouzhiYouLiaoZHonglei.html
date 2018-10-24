@@ -26,6 +26,23 @@
                         <li class="active">全国<span class="down-arrow"></span></li><li>种类<span class="down-arrow"></span></li><li>来源<span class="down-arrow"></span></li><li>排序<span class="down-arrow"></span></li>
                     </ul>
 
+
+                     <a  href="javascript:void(0);"
+                       class="aui-panel-cell"
+                       v-for="key in datas"> 
+                        <div class="aui-panel-cell-bd">
+                            <h4>{{key.title}}</h4>
+                            <span>{{key.date}}</span>
+                        </div> 
+                        <div class="float-rigt">
+                            <em class="jiage">{{key.price}}元</em>
+                        </div>
+                    </a>
+
+
+                    <div v-show="isSear">
+                      
+                    
                     <ul class="pinzhong_tool" v-show='urlParam!=null'>
                         <li v-for="(item,index) in cityArrlist">{{item.name}} <span v-if="index>0" class="cha"></span></li> 
                     </ul>
@@ -67,7 +84,7 @@
                       </div>
                     </div>
 
-
+                    </div>
 
                 </div> 
             </section>
@@ -81,6 +98,12 @@
 <script type="text/javascript" src="js/zepto.js"></script>
 <script type="text/javascript" src="js/city.js"></script>
 
+
+<script src="js/yingyang.js"></script>
+<script src="js/youzhi.js"></script>
+<script src="js/data.min.js"></script>
+
+
 <script type="text/javascript">
 
 var app = new Vue({
@@ -90,6 +113,8 @@ var app = new Vue({
     querySelect:null,
     urlParam:null,
     cityArrlist:[],//查询条件
+    datas:null,
+    isSear:true,
   },methods:{
     //获取地址栏参数//可以是中文参数
     getUrlParam(key) {
@@ -104,10 +129,19 @@ var app = new Vue({
     },
     getInit(){
       //当前选择的
+      var get_serkey = this.getUrlParam("ser_key"); //搜索关键词
       var geturl_param = this.getUrlParam("pCity");
       console.log(geturl_param)
       this.urlParam = geturl_param;
-      this.cityArrlist.push({"name":geturl_param})
+      this.cityArrlist.push({"name":geturl_param});
+
+      if(get_serkey!=null){
+        const SanDa_ZhuLiang =  sessionStorage.SanDa;
+        const dataList = JSON.parse(SanDa_ZhuLiang);
+        this.datas = dataList.result[0].daogu;
+        this.isSear = false;
+      }
+      
 
     },
     selectCity(CityName){
@@ -118,7 +152,7 @@ var app = new Vue({
       window.location.href=backUrl; //根据url参数   设置点返回的跳转地址。
     }
   },mounted(){
-    this.getInit()
+    this.getInit();
   }
 })
 
