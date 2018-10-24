@@ -19,14 +19,43 @@
     <div class="aux_back" @click="backClick()"></div>
     <h1 class="h1_title">{{title}}</h1>
 </header>
-
-            <section class="aui-scrollView">  
+<div class="shadowBox" v-if="isSear_city"></div>
+            <section class="aui-scrollView"> 
                 <div class="aui-card-list">  
+                  <ul class="cityBox"  v-if="isSear_city"> 
+
+
+
+
+
+<li @click="city_item('早籼稻')"   :class="{'active':isCityA=='早籼稻'}" >早籼稻<span >√</span></li>
+<li @click="city_item('中晚籼稻')" :class="{'active':isCityA=='中晚籼稻'}" >中晚籼稻<span>√</span></li>
+<li @click="city_item('粳稻')"    :class="{'active':isCityA=='粳稻'}" >粳稻<span>√</span></li>
+
+<li @click="city_item('早籼米')"   :class="{'active':isCityA=='早籼米'}" >早籼米<span>√</span></li>
+<li @click="city_item('中晚籼米')" :class="{'active':isCityA=='中晚籼米'}" >中晚籼米<span>√</span></li>
+
+<!-- <li @click="city_item('粳米')" :class="{'active':isCityA=='粳米'}" >粳米<span>√</span></li> -->
+<li @click="city_item('玉米')" :class="{'active':isCityA=='玉米'}" >玉米<span>√</span></li>
+<li @click="city_item('玉米淀粉')" :class="{'active':isCityA=='玉米淀粉'}" >玉米淀粉<span>√</span></li>
+<li @click="city_item('玉米淀粉糖')" :class="{'active':isCityA=='玉米淀粉糖'}" >玉米淀粉糖<span>√</span></li>
+<li @click="city_item('玉米酒精')" :class="{'active':isCityA=='玉米酒精'}" >玉米酒精<span>√</span></li>
+
+<li @click="city_item('玉米浆')" :class="{'active':isCityA=='玉米浆'}" >玉米浆<span>√</span></li>
+<li @click="city_item('玉米蛋白粉')" :class="{'active':isCityA=='玉米蛋白粉'}" >玉米蛋白粉<span>√</span></li>
+<li @click="city_item('玉米胚芽油')" :class="{'active':isCityA=='玉米胚芽油'}" >玉米胚芽油<span>√</span></li>
+<li @click="city_item('DDGS')" :class="{'active':isCityA=='DDGS'}" >DDGS<span>√</span></li>
+<li @click="city_item('玉米纤维')" :class="{'active':isCityA=='玉米纤维'}" >玉米纤维<span>√</span></li>
+<li @click="city_item('玉米胚芽粕')" :class="{'active':isCityA=='玉米胚芽粕'}" >玉米胚芽粕<span>√</span></li>
+                    
+                  </ul>
+
                     <ul class="search_tool">
-                        <li class="active">全国<span class="down-arrow"></span></li><li>种类<span class="down-arrow"></span></li><li>来源<span class="down-arrow"></span></li><li>排序<span class="down-arrow"></span></li>
+                        <li :class="{'active':isA==0}" @click="city_grep(0)">全国<span class="down-arrow"></span></li><li :class="{'active':isA==1}" @click="city_grep(1)">种类<span class="down-arrow"></span></li><li :class="{'active':isA==2}" @click="city_grep(2)">来源<span class="down-arrow"></span></li><li :class="{'active':isA==3}" @click="city_grep(3)">排序<span class="down-arrow"></span></li>
                     </ul>
 
 
+                    <div v-show="SearchList">
                      <a  href="javascript:void(0);"
                        class="aui-panel-cell"
                        v-for="key in datas"> 
@@ -38,7 +67,7 @@
                             <em class="jiage">{{key.price}}元</em>
                         </div>
                     </a>
-
+                  </div>
 
                     <div v-show="isSear">
                       
@@ -91,7 +120,29 @@
              
         </section>
 </div>
-
+<style type="text/css">
+  .shadowBox{
+    z-index: 1;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.5;
+}
+.aui-card-list { position: relative; }
+.cityBox{ 
+    position: absolute;
+    top: 30px;
+    background: #fff;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+ }
+ .cityBox li { height: 30px; line-height: 30px; text-indent: 20px; font-size: 14px; border-bottom: 1px solid #ccc; }
+ .cityBox li > span{ float: right;  margin-right: 10px; width:30px; height: 30px; line-height: 30px; color: #fff;  }
+ .cityBox li.active > span { color: #fb8940; }
+ .search_tool { position: relative; z-index: 1; }
+</style>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -105,6 +156,8 @@
 
 
 <script type="text/javascript">
+const SanDa_ZhuLiang =  sessionStorage.SanDa;
+        const dataList = JSON.parse(SanDa_ZhuLiang); 
 
 var app = new Vue({
   el: '#app',
@@ -115,6 +168,10 @@ var app = new Vue({
     cityArrlist:[],//查询条件
     datas:null,
     isSear:true,
+    isA:0,
+    SearchList:false,
+    isSear_city:false,
+    isCityA:''
   },methods:{
     //获取地址栏参数//可以是中文参数
     getUrlParam(key) {
@@ -130,18 +187,32 @@ var app = new Vue({
     getInit(){
       //当前选择的
       var get_serkey = this.getUrlParam("ser_key"); //搜索关键词
-      var geturl_param = this.getUrlParam("pCity");
-      console.log(geturl_param)
+      var geturl_param = this.getUrlParam("pCity"); 
       this.urlParam = geturl_param;
       this.cityArrlist.push({"name":geturl_param});
 
-      if(get_serkey!=null){
-        const SanDa_ZhuLiang =  sessionStorage.SanDa;
-        const dataList = JSON.parse(SanDa_ZhuLiang);
-        this.datas = dataList.result[0].daogu;
+      if(get_serkey!=null){  //带搜索参数的  才走着。 
         this.isSear = false;
-      }
+        this.SearchList = true;   
+        const dataItems = dataList.result[0].daogu; 
+          
+        console.log(dataItems)
+
+        if(get_serkey!=null){
+          filtered = dataItems.filter(function(item){
+              var itemsStr;
+              if(item.title.indexOf(get_serkey)> -1){
+                console.log(item); 
+                  return item;
+              }
+          });  
+          console.log(filtered); // 打印匹配项数据
+          this.datas = filtered;
+
+        }
       
+
+      } 
 
     },
     selectCity(CityName){
@@ -150,6 +221,40 @@ var app = new Vue({
     backClick(){
       var backUrl =  this.getUrlParam("url_addres");
       window.location.href=backUrl; //根据url参数   设置点返回的跳转地址。
+    },city_grep(inx){
+      this.isA = inx; 
+
+      if(inx==0){
+        this.SearchList =!this.SearchList;
+        this.isSear = !this.SearchList;  
+        this.isSear_city = false;  
+      }
+      if(inx==1){
+        this.SearchList =true;
+        this.isSear_city = !this.isSear_city;  
+      }
+      
+    },
+    city_item(str){
+        this.isCityA = str;
+        console.log(this.isCityA)
+        if(str!=null){
+           const dataItems = dataList.result[0].daogu;  
+                filtered = dataItems.filter(function(item){
+                    var itemsStr;
+                    if(item.title.indexOf(str)> -1){
+                      console.log(item); 
+                        return item;
+                    }
+                });  
+          console.log(filtered); // 打印匹配项数据
+          this.datas = filtered;
+
+          this.SearchList =true;
+          this.isSear_city = !this.isSear_city;  
+
+        }
+      
     }
   },mounted(){
     this.getInit();
