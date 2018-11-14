@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no, viewport-fit=cover"> 
+    <meta content="telephone=no" name="format-detection"/> <!--禁止拨号-->
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/basic.css">
+    <link rel="stylesheet" type="text/css" href="css/parts.css"> 
+</head>
+ 
+<body >  
+	 
+ <div id="app">
+
+ <section class="aui-flexView" style="height: auto;">
+ <header class="header_title bg1">
+    <div class="aux_back" @click="backClick()"></div>
+    <h1 class="h1_title">{{title}}</h1>
+</header>
+<div class="shadowBox" v-if="isSear_city"></div>
+            <section class="aui-scrollView"> 
+                <div class="aui-card-list">  
+                  <ul class="cityBox"  v-if="isSear_city"> 
+
+
+
+
+
+<li @click="city_item('早籼稻')"   :class="{'active':isCityA=='早籼稻'}" >早籼稻<span >√</span></li>
+<li @click="city_item('中晚籼稻')" :class="{'active':isCityA=='中晚籼稻'}" >中晚籼稻<span>√</span></li>
+<li @click="city_item('粳稻')"    :class="{'active':isCityA=='粳稻'}" >粳稻<span>√</span></li>
+
+<!-- <li @click="city_item('早籼米')"   :class="{'active':isCityA=='早籼米'}" >早籼米<span>√</span></li>
+<li @click="city_item('中晚籼米')" :class="{'active':isCityA=='中晚籼米'}" >中晚籼米<span>√</span></li> -->
+
+<!-- <li @click="city_item('粳米')" :class="{'active':isCityA=='粳米'}" >粳米<span>√</span></li> -->
+<!-- <li @click="city_item('玉米')" :class="{'active':isCityA=='玉米'}" >玉米<span>√</span></li>
+<li @click="city_item('玉米淀粉')" :class="{'active':isCityA=='玉米淀粉'}" >玉米淀粉<span>√</span></li>
+<li @click="city_item('玉米淀粉糖')" :class="{'active':isCityA=='玉米淀粉糖'}" >玉米淀粉糖<span>√</span></li>
+<li @click="city_item('玉米酒精')" :class="{'active':isCityA=='玉米酒精'}" >玉米酒精<span>√</span></li>
+
+<li @click="city_item('玉米浆')" :class="{'active':isCityA=='玉米浆'}" >玉米浆<span>√</span></li>
+<li @click="city_item('玉米蛋白粉')" :class="{'active':isCityA=='玉米蛋白粉'}" >玉米蛋白粉<span>√</span></li>
+<li @click="city_item('玉米胚芽油')" :class="{'active':isCityA=='玉米胚芽油'}" >玉米胚芽油<span>√</span></li>
+<li @click="city_item('DDGS')" :class="{'active':isCityA=='DDGS'}" >DDGS<span>√</span></li>
+<li @click="city_item('玉米纤维')" :class="{'active':isCityA=='玉米纤维'}" >玉米纤维<span>√</span></li>
+<li @click="city_item('玉米胚芽粕')" :class="{'active':isCityA=='玉米胚芽粕'}" >玉米胚芽粕<span>√</span></li> -->
+                    
+                  </ul>
+
+                    <ul class="search_tool">
+                        <li :class="{'active':isA==0}" @click="city_grep(0)">全国<span class="down-arrow"></span></li><li :class="{'active':isA==1}" @click="city_grep(1)">种类<span class="down-arrow"></span></li><li :class="{'active':isA==2}" @click="city_grep(2)">来源<span class="down-arrow"></span></li><li :class="{'active':isA==3}" @click="city_grep(3)">排序<span class="down-arrow"></span></li>
+                    </ul>
+
+
+                    <div v-show="SearchList">
+                     <a  href="javascript:void(0);"
+                       class="aui-panel-cell"
+                       v-for="key in datas"> 
+                        <div class="aui-panel-cell-bd">
+                            <h4>{{key.title}}</h4>
+                            <span>{{key.date}}</span>
+                        </div> 
+                        <div class="float-rigt">
+                            <em class="jiage">{{key.price}}元</em>
+                        </div>
+                    </a>
+                  </div>
+
+                    <div v-show="isSear">
+                      
+                    
+                    <ul class="pinzhong_tool" v-show='urlParam!=null'>
+                        <li v-for="(item,index) in cityArrlist">{{item.name}} <span v-if="index>0" class="cha"></span></li> 
+                    </ul>
+                    <!--显示点击的是哪一个字母-->
+                    <div id="showLetter" class="showLetter"><span>A</span></div>
+                    <!--城市索引查询-->
+                    <div class="letter">
+                        <ul>
+                          <li><a href="javascript:;">热门</a></li>
+                          <li><a href="javascript:;">历史</a></li>
+                          <li><a href="javascript:;">A</a></li>
+                          <li><a href="javascript:;">B</a></li>
+                          <li><a href="javascript:;">C</a></li>
+                          <li><a href="javascript:;">D</a></li>
+                          <li><a href="javascript:;">E</a></li>
+                          <li><a href="javascript:;">F</a></li>
+                          <li><a href="javascript:;">G</a></li>
+                          <li><a href="javascript:;">H</a></li>
+                          <li><a href="javascript:;">J</a></li>
+                          <li><a href="javascript:;">K</a></li>
+                          <li><a href="javascript:;">L</a></li>
+                          <li><a href="javascript:;">M</a></li>
+                          <li><a href="javascript:;">N</a></li>
+                          <li><a href="javascript:;">P</a></li>
+                          <li><a href="javascript:;">Q</a></li>
+                          <li><a href="javascript:;">R</a></li>
+                          <li><a href="javascript:;">S</a></li>
+                          <li><a href="javascript:;">T</a></li>
+                          <li><a href="javascript:;">W</a></li>
+                          <li><a href="javascript:;">X</a></li>
+                          <li><a href="javascript:;">Y</a></li>
+                          <li><a href="javascript:;">Z</a></li>
+                        </ul>
+                      </div>
+                    <!--城市列表-->
+                    <div class="container" id="cont">
+                      <div class="city">
+                        
+                      </div>
+                    </div>
+
+                    </div>
+
+                </div> 
+            </section>
+             
+        </section>
+</div>
+<style type="text/css">
+  .shadowBox{
+    z-index: 1;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.5;
+}
+.aui-card-list { position: relative; }
+.cityBox{ 
+    position: absolute;
+    top: 30px;
+    background: #fff;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+ }
+ .cityBox li { height: 30px; line-height: 30px; text-indent: 20px; font-size: 14px; border-bottom: 1px solid #ccc; }
+ .cityBox li > span{ float: right;  margin-right: 10px; width:30px; height: 30px; line-height: 30px; color: #fff;  }
+ .cityBox li.active > span { color: #fb8940; }
+ .search_tool { position: relative; z-index: 1; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/zepto.js"></script>
+<script type="text/javascript" src="js/city.js"></script>
+
+
+<script src="js/yingyang.js"></script>
+<script src="js/youzhi.js"></script>
+<script src="js/data.min.js"></script>
+
+
+<script type="text/javascript">
+const SanDa_ZhuLiang =  sessionStorage.SanDa;
+        const dataList = JSON.parse(SanDa_ZhuLiang); 
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    title:'综合查询',
+    querySelect:null,
+    urlParam:null,
+    cityArrlist:[],//查询条件
+    datas:null,
+    isSear:true,
+    isA:0,
+    SearchList:false,
+    isSear_city:false,
+    isCityA:''
+  },methods:{
+    //获取地址栏参数//可以是中文参数
+    getUrlParam(key) {
+      // 获取参数
+        var url = window.location.search;
+        // 正则筛选地址栏
+        var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+        // 匹配目标参数
+        var result = url.substr(1).match(reg);
+        //返回参数值
+        return result ? decodeURIComponent(result[2]) : null;
+    },
+    getInit(){
+      //当前选择的
+      var get_serkey = this.getUrlParam("ser_key"); //搜索关键词
+      var geturl_param = this.getUrlParam("pCity"); 
+      this.urlParam = geturl_param;
+      this.cityArrlist.push({"name":geturl_param});
+
+      if(get_serkey!=null){  //带搜索参数的  才走着。 
+        this.isSear = false;
+        this.SearchList = true;   
+        const dataItems = dataList.result[0].daogu; 
+          
+        console.log(dataItems)
+
+        if(get_serkey!=null){
+          filtered = dataItems.filter(function(item){
+              var itemsStr;
+              if(item.title.indexOf(get_serkey)> -1){
+                console.log(item); 
+                  return item;
+              }
+          });  
+          console.log(filtered); // 打印匹配项数据
+          this.datas = filtered;
+
+        }
+      
+
+      } 
+
+    },
+    selectCity(CityName){
+      //全国
+      console.log("全国-选择城市")
+      this.cityArrlist.push({"name":CityName})
+    },
+    backClick(){
+      var backUrl =  this.getUrlParam("url_addres");
+      sessionStorage.bUrl = backUrl;
+      // window.location.href=sessionStorage.bUrl; //根据url参数   设置点返回的跳转地址。
+      // window.location.href='http://47.95.47.96/JiShi/SanDaZhuLiang'; //根据url参数   设置点返回的跳转地址。
+      
+    },city_grep(inx){
+
+      this.isA = inx; 
+
+      if(inx==0){ //全国
+        this.SearchList =!this.SearchList;
+        this.isSear = !this.SearchList;  
+        this.isSear_city = false;  
+      }
+      if(inx==1){  //种类
+        this.SearchList =true;
+        this.isSear_city = !this.isSear_city;  
+      }
+      if(inx==2){ //来源
+
+      }
+      if(inx==3){ //排序
+
+      }
+      
+    },
+    city_item(str){
+        this.isCityA = str;
+        console.log(this.isCityA)
+        if(str!=null){
+           const dataItems = dataList.result[0].daogu;  
+                filtered = dataItems.filter(function(item){
+                    var itemsStr;
+                    if(item.title.indexOf(str)> -1){
+                      console.log(item); 
+                        return item;
+                    }
+                });  
+          console.log(filtered); // 打印匹配项数据
+          this.datas = filtered;
+
+          this.SearchList =true;
+          this.isSear_city = !this.isSear_city;  
+
+        }
+      
+    }
+  },mounted(){
+    this.getInit();
+  }
+})
+
+   
+</script>
+</body>
+</html>
